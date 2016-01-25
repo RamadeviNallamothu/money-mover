@@ -1,0 +1,16 @@
+# This file is managed by sprout
+
+pairs:
+  mm: Mark McDonald; mmcdonald
+  mk: Madhana Gopalk; mkumar
+  gg: George Gelashvili; ggelashvili
+  pp: Priyan Parida; priyanparida
+  rn: Ramadevi Nallamothu; RNallamothu
+
+email:
+  prefix: pair
+  domain: example.com
+
+email_addresses:
+
+global: true
