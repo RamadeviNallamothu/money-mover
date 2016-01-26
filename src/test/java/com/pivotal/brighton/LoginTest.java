@@ -1,31 +1,44 @@
 package com.pivotal.brighton;
 
-import com.pivotal.brighton.login.Login;
-import junit.framework.TestCase;
+import com.pivotal.brighton.login.LoginController;
+import com.pivotal.brighton.login.ResponseEntity.LoginResponse;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.http.ResponseEntity;
 
-public class LoginTest extends TestCase{
+import static org.junit.Assert.assertEquals;
 
-    private Login loginSvc;
+public class LoginTest {
+
+    private LoginController loginController;
 
     @Before
     public void init(){
-        loginSvc = new Login();
+        loginController = new LoginController();
     }
 
     @Test
-    public void testDefaultResponse(){
-        String response = loginSvc.login("food","bar");
-        assertEquals("ERROR", response);
+    public void testNoSuchUser(){
+        ResponseEntity<LoginResponse> response = loginController.login("food","bar");
+        assertEquals("ERROR", ((LoginResponse)response.getBody()).getAuthResponse());
     }
 
+    @Test
+    public void testInvalidPassword(){
+        ResponseEntity<LoginResponse> response = loginController.login("foo","bark");
+        assertEquals("ERROR", ((LoginResponse)response.getBody()).getAuthResponse());
+    }
 
     @Test
     public void testAuthSuccess(){
-        String response = loginSvc.login("foo","bar");
-        assertEquals("SUCCESS", response);
+        ResponseEntity<LoginResponse> response = loginController.login("foo","bar");
+        assertEquals("SUCCESS", ((LoginResponse)response.getBody()).getAuthResponse());
+    }
+
+    @Test
+    public void testNullCredential(){
+        ResponseEntity<LoginResponse> response = loginController.login(null,null);
+        assertEquals("ERROR", ((LoginResponse)response.getBody()).getAuthResponse());
     }
 
 }
