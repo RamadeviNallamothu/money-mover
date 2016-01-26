@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 
 import javax.xml.ws.BindingType;
+import java.util.Map;
+import java.lang.Object;
 
 
 /**
@@ -25,7 +27,6 @@ public class StatusController {
     {
         return new ResponseEntity<String>("200",HttpStatus.OK);
     }
-
 
 
 }
