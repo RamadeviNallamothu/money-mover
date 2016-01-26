@@ -20,25 +20,25 @@ public class LoginTest {
     @Test
     public void testNoSuchUser(){
         ResponseEntity<LoginResponse> response = loginController.login("food","bar");
-        assertEquals("ERROR", ((LoginResponse)response.getBody()).getAuthResponse());
+        assertEquals("ERROR", response.getBody().getAuthResponse());
     }
 
     @Test
     public void testInvalidPassword(){
         ResponseEntity<LoginResponse> response = loginController.login("foo","bark");
-        assertEquals("ERROR", ((LoginResponse)response.getBody()).getAuthResponse());
+        assertEquals("ERROR", response.getBody().getAuthResponse());
     }
 
     @Test
     public void testAuthSuccess(){
         ResponseEntity<LoginResponse> response = loginController.login("foo","bar");
-        assertEquals("SUCCESS", ((LoginResponse)response.getBody()).getAuthResponse());
+        assertEquals("SUCCESS", response.getBody().getAuthResponse());
     }
 
     @Test
     public void testNullCredential(){
         ResponseEntity<LoginResponse> response = loginController.login(null,null);
-        assertEquals("ERROR", ((LoginResponse)response.getBody()).getAuthResponse());
+        assertEquals("ERROR", response.getBody().getAuthResponse());
     }
 
 }
