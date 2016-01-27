@@ -2,3 +2,5 @@
 *.iml
 .mvn
 target
+src/main/java/com/pivotal/brighton/.DS_Store
+snapshots

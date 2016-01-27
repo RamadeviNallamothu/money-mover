@@ -1,4 +1,4 @@
-package com.pivotal.brighton;
+package com.pivotal.brighton.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +23,10 @@ public class StatusController {
 //    }
 
     @RequestMapping(path = "/status",method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody ResponseEntity<String> getStatus()
-    {
-        return new ResponseEntity<String>("200",HttpStatus.OK);
-    }
+public @ResponseBody ResponseEntity<String> getStatus()
+{
+    return new ResponseEntity<String>("200",HttpStatus.OK);
+}
 
 
 }
