@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,18 +20,19 @@ public class LoginController {
     }};
 
     @RequestMapping(value="/users/sign_in", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LoginResponse> login(String userName, String password) {
-
+    public ResponseEntity<LoginResponse> login(String userName, String password, HttpServletRequest httpServletRequest) {
         ResponseEntity<LoginResponse> responseEntity;
         LoginResponse loginResponse = new LoginResponse();
 
         if(authenticate(userName, password)) {
             loginResponse.setAuthResponse("SUCCESS");
             responseEntity = new ResponseEntity<LoginResponse>(loginResponse,HttpStatus.ACCEPTED);
+            httpServletRequest.getSession().setAttribute("money-mover.user.username", userName);
         }
         else {
             loginResponse.setAuthResponse("ERROR");
             responseEntity = new ResponseEntity<LoginResponse>(loginResponse,HttpStatus.UNAUTHORIZED);
+            httpServletRequest.getSession().invalidate();
         }
 
         return responseEntity;
