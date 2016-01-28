@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,15 +20,16 @@ public class LoginController {
         put("foo", "bar");
     }};
 
-    @RequestMapping(value="/users/sign_in", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LoginResponse> login(String userName, String password, HttpServletRequest httpServletRequest) {
+    @RequestMapping(value="/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LoginResponse> login(String username, String password, HttpServletRequest httpServletRequest) {
         ResponseEntity<LoginResponse> responseEntity;
         LoginResponse loginResponse = new LoginResponse();
 
-        if(authenticate(userName, password)) {
+        if(authenticate(username, password)) {
             loginResponse.setAuthResponse("SUCCESS");
+            loginResponse.setAuthToken(generateAuthToken(username,password));
+            httpServletRequest.getSession().setAttribute("money-mover.user.authToken", loginResponse.getAuthToken());
             responseEntity = new ResponseEntity<LoginResponse>(loginResponse,HttpStatus.ACCEPTED);
-            httpServletRequest.getSession().setAttribute("money-mover.user.username", userName);
         }
         else {
             loginResponse.setAuthResponse("ERROR");
@@ -37,8 +40,13 @@ public class LoginController {
         return responseEntity;
     }
 
-    private boolean authenticate(String userName, String password){
-        return password!=null?password.equals(credentialRepoDTO.get(userName)):false;
+    private boolean authenticate(String username, String password){
+        return password!=null?password.equals(credentialRepoDTO.get(username)):false;
+    }
+
+    private String generateAuthToken(String username, String password){
+        SecureRandom random = new SecureRandom();
+        return new BigInteger(130,random).toString(64);
     }
 
 }
