@@ -36,13 +36,13 @@ public class TransferService {
             sourceAccountDetail.setTransactionAmount(transactionAmount);
             sourceAccountDetail.setTransactionDate(new Date());
             sourceAccountDetail.setTransactionNotes(transactionNotes);
-            sourceAccountDetail.setTransactionType("DEBIT");
+            sourceAccountDetail.setTransactionType("Withdrawal");
 
             destinationAccountDetail.setBalance(destinationAccountDetail.getBalance()+transactionAmount);
             destinationAccountDetail.setTransactionAmount(transactionAmount);
             destinationAccountDetail.setTransactionDate(new Date());
             destinationAccountDetail.setTransactionNotes(transactionNotes);
-            destinationAccountDetail.setTransactionType("CREDIT");
+            destinationAccountDetail.setTransactionType("Deposit");
 
             accountDetailRepository.save(sourceAccountDetail);
             accountDetailRepository.save(destinationAccountDetail);

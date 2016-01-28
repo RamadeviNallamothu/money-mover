@@ -21,8 +21,8 @@ public class AccountDetail {
     @Column(name = "account_type")
     private String accountType;
 
-    @Column(name = "user")
-    private String user;
+    @Column(name = "account_name")
+    private String accountName;
 
     @Column(name = "balance")
     private double balance;
@@ -53,14 +53,6 @@ public class AccountDetail {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public double getBalance() {
@@ -101,5 +93,13 @@ public class AccountDetail {
 
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 }

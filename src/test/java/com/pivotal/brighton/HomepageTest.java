@@ -27,12 +27,6 @@ public class HomepageTest extends SeleniumTest {
         find("body").should().contain("200");
     }
 
-    @Test
-    public void moneyTransferTest()
-    {
-
-    }
-
 
     @Override
     protected String getDefaultBaseUrl() {
