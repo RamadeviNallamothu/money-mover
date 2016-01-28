@@ -1,20 +1,17 @@
-package com.pivotal.brighton;
+package com.pivotal.brighton.service;
 
-import com.pivotal.brighton.login.LoginController;
-import com.pivotal.brighton.login.ResponseEntity.LoginResponse;
+import com.pivotal.brighton.AuthHelper;
+import com.pivotal.brighton.controller.LoginController;
+import com.pivotal.brighton.dto.LoginResponse;
+import org.apache.http.auth.AUTH;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mock.http.client.MockClientHttpRequest;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
+import static org.junit.Assert.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-public class LoginTest {
+public class LoginServiceTest {
     private LoginController loginController;
     private MockHttpServletRequest httpServletRequest;
 
@@ -22,6 +19,7 @@ public class LoginTest {
     public void init(){
         loginController = new LoginController();
         httpServletRequest = new MockHttpServletRequest();
+        httpServletRequest.getSession().setAttribute("money-mover.user.authToken","12345789101");
     }
 
     @Test
@@ -66,6 +64,12 @@ public class LoginTest {
         ResponseEntity<LoginResponse> response = loginController.login("foo","bar",httpServletRequest);
         assertEquals("SUCCESS", response.getBody().getAuthResponse());
         assertNotNull(response.getBody().getAuthToken());
+    }
+
+    @Test
+    public void testAuthentication(){
+        httpServletRequest.addHeader("auth_token","12345789101");
+        assertTrue(AuthHelper.isAuthenticated(httpServletRequest));
     }
 
 }

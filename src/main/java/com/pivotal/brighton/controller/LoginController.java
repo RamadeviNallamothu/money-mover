@@ -1,6 +1,6 @@
-package com.pivotal.brighton.login;
+package com.pivotal.brighton.controller;
 
-import com.pivotal.brighton.login.ResponseEntity.LoginResponse;
+import com.pivotal.brighton.dto.LoginResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

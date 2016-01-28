@@ -1,6 +1,4 @@
-package com.pivotal.brighton.login.ResponseEntity;
-
-import org.springframework.stereotype.Component;
+package com.pivotal.brighton.dto;
 
 public class LoginResponse {
     private String authResponse;
