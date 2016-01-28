@@ -14,10 +14,7 @@ import java.util.List;
 /**
  * Created by pivotal on 1/26/16.
  */
-@RepositoryRestResource(collectionResourceRel = "accounts", path = "accounts")
+@Repository
 public interface AccountDetailRepository extends PagingAndSortingRepository<AccountDetail, String>{
-
-    @RestResource(path ="user", rel = "user")
-    List<AccountDetail> findByUser(@Param("user")  String user);
 
 }
