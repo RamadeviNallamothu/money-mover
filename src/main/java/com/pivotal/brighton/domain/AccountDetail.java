@@ -25,7 +25,7 @@ public class AccountDetail {
     private String accountName;
 
     @Column(name = "balance")
-    private double balance;
+    private double accountBalance;
 
     @Column(name = "transaction_date", nullable = false)
     private Date transactionDate;
@@ -53,14 +53,6 @@ public class AccountDetail {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
     }
 
     public Date getTransactionDate() {
@@ -101,5 +93,13 @@ public class AccountDetail {
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;
+    }
+
+    public double getAccountBalance() {
+        return accountBalance;
+    }
+
+    public void setAccountBalance(double accountBalance) {
+        this.accountBalance = accountBalance;
     }
 }

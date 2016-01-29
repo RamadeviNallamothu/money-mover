@@ -1,4 +1,4 @@
-package com.pivotal.brighton.controller;
+package com.pivotal.brighton.service;
 
 import com.pivotal.brighton.repository.AccountDetailRepository;
 import com.pivotal.brighton.service.TransferService;
@@ -35,7 +35,7 @@ public class TransferServiceTest {
         fromAccountDetail = new AccountDetail();
         fromAccountDetail.setAccountNumber("12345");
         fromAccountDetail.setAccountType("Savings");
-        fromAccountDetail.setBalance(5000.00);
+        fromAccountDetail.setAccountBalance(5000.00);
 //        fromAccountDetail.setUser();
 
         Mockito.when(accountDetailRepository.findOne("12345")).thenReturn(fromAccountDetail);
@@ -44,7 +44,7 @@ public class TransferServiceTest {
         toAccountDetail = new AccountDetail();
         toAccountDetail.setAccountNumber("11111");
         toAccountDetail.setAccountType("Checking");
-        toAccountDetail.setBalance(2000.00);
+        toAccountDetail.setAccountBalance(2000.00);
 //        fromAccountDetail.setUser();
 
         Mockito.when(accountDetailRepository.findOne("11111")).thenReturn(toAccountDetail);
@@ -54,31 +54,31 @@ public class TransferServiceTest {
     public void moneyTransferTest()
     {
         mockTransferService.moneyTransfer("12345", "11111", 1000.00, "");
-        assertEquals(fromAccountDetail.getBalance(), 4000.00, 0.0001);
-        assertEquals(toAccountDetail.getBalance(), 3000.00, 0.0001);
+        assertEquals(fromAccountDetail.getAccountBalance(), 4000.00, 0.0001);
+        assertEquals(toAccountDetail.getAccountBalance(), 3000.00, 0.0001);
         assertEquals(fromAccountDetail.getTransactionAmount(), 1000.00, 0.0001);
-        assertEquals(fromAccountDetail.getTransactionType(), "Withdrawal");
+        assertEquals(fromAccountDetail.getTransactionType(), "withdrawal");
         assertEquals(toAccountDetail.getTransactionAmount(), 1000.00, 0.0001);
-        assertEquals(toAccountDetail.getTransactionType(), "Deposit");
+        assertEquals(toAccountDetail.getTransactionType(), "deposit");
     }
 
     @Test
     public void moneyTransferInsufficientFundsTest()
     {
         mockTransferService.moneyTransfer("12345", "11111", 5000.00, "");
-        assertEquals(fromAccountDetail.getBalance(), 0.00, 0.0001);
-        assertEquals(toAccountDetail.getBalance(), 7000.00, 0.0001);
+        assertEquals(fromAccountDetail.getAccountBalance(), 0.00, 0.0001);
+        assertEquals(toAccountDetail.getAccountBalance(), 7000.00, 0.0001);
         assertEquals(fromAccountDetail.getTransactionAmount(), 5000.00, 0.0001);
-        assertEquals(fromAccountDetail.getTransactionType(), "Withdrawal");
+        assertEquals(fromAccountDetail.getTransactionType(), "withdrawal");
         assertEquals(toAccountDetail.getTransactionAmount(), 5000.00, 0.0001);
-        assertEquals(toAccountDetail.getTransactionType(), "Deposit");
+        assertEquals(toAccountDetail.getTransactionType(), "deposit");
 
         mockTransferService.moneyTransfer("12345", "11111", 1.00, "");
-        assertEquals(fromAccountDetail.getBalance(), 0.00, 0.0001);
+        assertEquals(fromAccountDetail.getAccountBalance(), 0.00, 0.0001);
         assertEquals(fromAccountDetail.getTransactionAmount(), 5000.00, 0.0001);
-        assertEquals(fromAccountDetail.getTransactionType(), "Withdrawal");
+        assertEquals(fromAccountDetail.getTransactionType(), "withdrawal");
         assertEquals(toAccountDetail.getTransactionAmount(), 5000.00, 0.0001);
-        assertEquals(toAccountDetail.getTransactionType(), "Deposit");
+        assertEquals(toAccountDetail.getTransactionType(), "deposit");
 
 
     }

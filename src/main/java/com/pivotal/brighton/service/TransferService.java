@@ -30,19 +30,19 @@ public class TransferService {
         sourceAccountDetail = accountDetailRepository.findOne(sourceAccountID);
         destinationAccountDetail = accountDetailRepository.findOne(destinationAccountID);
 
-        if(sourceAccountDetail.getBalance() >= transactionAmount)
+        if(sourceAccountDetail.getAccountBalance() >= transactionAmount)
         {
-            sourceAccountDetail.setBalance((sourceAccountDetail.getBalance()-transactionAmount));
+            sourceAccountDetail.setAccountBalance((sourceAccountDetail.getAccountBalance()-transactionAmount));
             sourceAccountDetail.setTransactionAmount(transactionAmount);
             sourceAccountDetail.setTransactionDate(new Date());
             sourceAccountDetail.setTransactionNotes(transactionNotes);
-            sourceAccountDetail.setTransactionType("Withdrawal");
+            sourceAccountDetail.setTransactionType("withdrawal");
 
-            destinationAccountDetail.setBalance(destinationAccountDetail.getBalance()+transactionAmount);
+            destinationAccountDetail.setAccountBalance(destinationAccountDetail.getAccountBalance()+transactionAmount);
             destinationAccountDetail.setTransactionAmount(transactionAmount);
             destinationAccountDetail.setTransactionDate(new Date());
             destinationAccountDetail.setTransactionNotes(transactionNotes);
-            destinationAccountDetail.setTransactionType("Deposit");
+            destinationAccountDetail.setTransactionType("deposit");
 
             accountDetailRepository.save(sourceAccountDetail);
             accountDetailRepository.save(destinationAccountDetail);
