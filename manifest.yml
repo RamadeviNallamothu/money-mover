@@ -1,0 +1,4 @@
+---
+applications:
+- name: money-mover
+  memory: 512M
