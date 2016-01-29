@@ -27,7 +27,7 @@ public class LoginController {
 
         if(authenticate(username, password)) {
             loginResponse.setAuthResponse("SUCCESS");
-            loginResponse.setAuthToken(generateAuthToken(username,password));
+            loginResponse.setAuthToken(generateAuthToken());
             httpServletRequest.getSession().setAttribute("money-mover.user.authToken", loginResponse.getAuthToken());
             responseEntity = new ResponseEntity<LoginResponse>(loginResponse,HttpStatus.ACCEPTED);
         }
@@ -44,7 +44,7 @@ public class LoginController {
         return password!=null?password.equals(credentialRepoDTO.get(username)):false;
     }
 
-    private String generateAuthToken(String username, String password){
+    private String generateAuthToken(){
         SecureRandom random = new SecureRandom();
         return new BigInteger(130,random).toString(64);
     }

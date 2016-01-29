@@ -3,7 +3,6 @@ package com.pivotal.brighton.service;
 import com.pivotal.brighton.AuthHelper;
 import com.pivotal.brighton.controller.LoginController;
 import com.pivotal.brighton.dto.LoginResponse;
-import org.apache.http.auth.AUTH;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,6 @@ public class LoginServiceTest {
     public void init(){
         loginController = new LoginController();
         httpServletRequest = new MockHttpServletRequest();
-        httpServletRequest.getSession().setAttribute("money-mover.user.authToken","12345789101");
     }
 
     @Test
@@ -51,7 +49,7 @@ public class LoginServiceTest {
     }
 
     @Test
-    public void alreadySignedInUserInvalidPassword(){
+    public void testUserSigningInAgainWithInvalidPassword(){
         loginController.login("foo","bar",httpServletRequest);
         ResponseEntity<LoginResponse> response = loginController.login("foo","baz",httpServletRequest);
         assertEquals("ERROR", response.getBody().getAuthResponse());
@@ -59,7 +57,7 @@ public class LoginServiceTest {
     }
 
     @Test
-    public void alreadySignedInUserValidPassword(){
+    public void testUserSigningInAgainWithValidPassword(){
         loginController.login("foo","bar",httpServletRequest);
         ResponseEntity<LoginResponse> response = loginController.login("foo","bar",httpServletRequest);
         assertEquals("SUCCESS", response.getBody().getAuthResponse());
@@ -67,9 +65,43 @@ public class LoginServiceTest {
     }
 
     @Test
-    public void testAuthentication(){
-        httpServletRequest.addHeader("auth_token","12345789101");
+    public void testUserSessionAuthenticatedWithValidTokenAfterLogin(){
+        ResponseEntity<LoginResponse> response = loginController.login("foo","bar",httpServletRequest);
+        String authToken = response.getBody().getAuthToken();
+        httpServletRequest.addHeader("authToken",authToken);
         assertTrue(AuthHelper.isAuthenticated(httpServletRequest));
+    }
+
+    @Test
+    public void testUserSessionAuthenticatedWithEmptyTokenAfterLogin(){
+        loginController.login("foo","bar",httpServletRequest);
+        assertFalse(AuthHelper.isAuthenticated(httpServletRequest));
+        String authToken = "";
+        httpServletRequest.addHeader("authToken",authToken);
+        assertFalse(AuthHelper.isAuthenticated(httpServletRequest));
+    }
+
+    @Test
+    public void testUserSessionNotAuthenticatedWithInvalidTokenAfterLogin(){
+        ResponseEntity<LoginResponse> response = loginController.login("foo","bar",httpServletRequest);
+        String authToken = "345678";
+        httpServletRequest.addHeader("authToken",authToken);
+        assertFalse(AuthHelper.isAuthenticated(httpServletRequest));
+    }
+
+    @Test
+    public void testUserSessionNotAuthenticatedWithEmptyTokenBeforeLogin(){
+        assertFalse(AuthHelper.isAuthenticated(httpServletRequest));
+        String authToken = "";
+        httpServletRequest.addHeader("authToken",authToken);
+        assertFalse(AuthHelper.isAuthenticated(httpServletRequest));
+    }
+
+    @Test
+    public void testUserSessionNotAuthenticatedWithInvalidTokenBeforeLogin(){
+        String authToken = "345678";
+        httpServletRequest.addHeader("authToken",authToken);
+        assertFalse(AuthHelper.isAuthenticated(httpServletRequest));
     }
 
 }
