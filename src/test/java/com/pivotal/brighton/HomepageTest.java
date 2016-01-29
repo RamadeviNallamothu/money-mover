@@ -14,24 +14,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringApplicationConfiguration(classes = MoneyMoverApplication.class)
 @WebIntegrationTest
 public class HomepageTest extends SeleniumTest {
-
-    /*@Test
-    public void itContainsMessage1() {
-        goTo(getDefaultBaseUrl().concat("/"));
-        find("body").should().contain("404");
-    }*/
-
     @Test
     public void itContainsMessage() {
         goTo(getDefaultBaseUrl().concat("/status"));
         find("body").should().contain("200");
     }
 
-
     @Override
     protected String getDefaultBaseUrl() {
         return "http://localhost:8080";
     }
-
-
 }
